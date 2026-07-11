@@ -1,22 +1,21 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --text: #536471;
+  --text-h: #0f1419;
+  --bg: #ffffff;
+  --border: #eff3f4;
+  --code-bg: #f7f9f9;
+  --accent: #0f1419;
+  --accent-bg: rgba(15, 20, 25, 0.08);
+  --accent-border: rgba(15, 20, 25, 0.15);
+  --social-bg: #f7f9f9;
+  --shadow: none;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
+  font: 15px/1.3 var(--sans);
+  letter-spacing: 0px;
   color-scheme: light dark;
   color: var(--text);
   background: var(--bg);
@@ -24,25 +23,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --text: #71767b;
+    --text-h: #e7e9ea;
+    --bg: #000000;
+    --border: #2f3336;
+    --code-bg: #16181c;
+    --accent: #ffffff;
+    --accent-bg: rgba(255, 255, 255, 0.1);
+    --accent-border: rgba(255, 255, 255, 0.2);
+    --social-bg: #16181c;
+    --shadow: none;
   }
 
   #social .button-icon {
@@ -52,15 +46,11 @@
 
 body {
   margin: 0;
+  background-color: var(--bg);
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -69,28 +59,23 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 800;
   color: var(--text-h);
+  margin: 0;
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
   font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+  letter-spacing: -0.5px;
+  margin: 20px 0;
 }
+
+h2 {
+  font-size: 20px;
+  line-height: 120%;
+  letter-spacing: -0.3px;
+}
+
 p {
   margin: 0;
 }
@@ -104,7 +89,7 @@ code,
 }
 
 code {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
@@ -290,17 +275,48 @@ code {
 
 .feed-main {
   flex-grow: 1;
-  max-width: 600px;
   width: 100%;
-  margin: 0 auto;
-  border-inline: 1px solid var(--border);
   text-align: left;
 }
 
 /* Tweet Form Styling */
 .tweet-form-container {
-  padding: 16px 24px;
-  border-bottom: 8px solid var(--border);
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tweet-form-avatar-col {
+  flex-shrink: 0;
+}
+
+.tweet-form-avatar,
+.tweet-form-avatar-fallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.tweet-form-avatar {
+  object-fit: cover;
+}
+
+.tweet-form-avatar-fallback {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-border);
+}
+
+.tweet-form-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .tweet-textarea {
@@ -312,6 +328,7 @@ code {
   color: var(--text-h);
   background: transparent;
   outline: none;
+  margin-top: 8px;
   margin-bottom: 12px;
 }
 
@@ -348,7 +365,7 @@ code {
   font-size: 15px;
   font-weight: 600;
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   border: none;
   border-radius: 9999px;
   cursor: pointer;
@@ -367,29 +384,38 @@ code {
 /* Tweet Card Styling */
 .tweet-card {
   display: flex;
-  padding: 16px 24px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--border);
   gap: 12px;
   transition: background-color 0.2s;
+  text-align: left;
 }
 
 .tweet-card:hover {
   background-color: var(--code-bg);
 }
 
-.tweet-avatar {
+.tweet-avatar,
+.tweet-avatar-fallback-small {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tweet-avatar {
+  object-fit: cover;
+}
+
+.tweet-avatar-fallback-small {
   background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
   color: var(--accent);
+  font-weight: 700;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 16px;
-  flex-shrink: 0;
+  border: 1px solid var(--accent-border);
 }
 
 .tweet-content-wrapper {
@@ -453,14 +479,33 @@ code {
   transition: all 0.2s;
 }
 
-.tweet-action-btn:hover {
-  background: var(--accent-bg);
-  color: var(--accent);
+.tweet-action-btn.comment-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+  color: #1d9bf0;
+}
+
+.tweet-action-btn.retweet-btn:hover {
+  background-color: rgba(0, 186, 124, 0.1);
+  color: #00ba7c;
+}
+
+.tweet-action-btn.like-btn:hover {
+  background-color: rgba(249, 24, 128, 0.1);
+  color: #f91880;
+}
+
+.tweet-action-btn.like-btn.liked {
+  color: #f91880;
+}
+
+.tweet-action-btn.like-btn.liked:hover {
+  background-color: rgba(249, 24, 128, 0.1);
+  color: #f91880;
 }
 
 /* Tweet List Status */
 .tweet-list-status {
-  padding: 40px 24px;
+  padding: 40px 16px;
   text-align: center;
   color: var(--text);
 }
@@ -479,7 +524,32 @@ code {
 .feed-error-banner {
   background: rgba(239, 68, 68, 0.1);
   color: #ef4444;
-  padding: 12px 24px;
+  padding: 12px 16px;
   font-size: 14px;
   border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.home-header {
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  z-index: 5;
+  text-align: left;
+}
+
+@media (prefers-color-scheme: dark) {
+  .home-header {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+}
+
+.home-header h2 {
+  font-size: 19px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-h);
 }

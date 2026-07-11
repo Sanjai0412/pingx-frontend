@@ -5,6 +5,11 @@ export const fetchTweets = async () => {
     return response.data; // list of tweets
 }
 
+export const fetchUserTweets = async (userId) => {
+    const response = await apiClient.get(`users/${userId}/tweets`);
+    return response.data;
+}
+
 export const createTweet = async (content) => {
     const response = await apiClient.post("/tweets", {
         content,

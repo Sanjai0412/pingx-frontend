@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { createTweet } from "../services/tweetService";
+import { useAuth } from "../hooks/useAuth";
 
 const TweetForm = ({ onTweetCreated }) => {
+  const { user } = useAuth();
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -34,7 +36,16 @@ const TweetForm = ({ onTweetCreated }) => {
 
   return (
     <div className="tweet-form-container">
-      <form onSubmit={handleSubmit}>
+      <div className="tweet-form-avatar-col">
+        {user?.profileImgUrl ? (
+          <img className="tweet-form-avatar" src={user.profileImgUrl} alt="Avatar" />
+        ) : (
+          <div className="tweet-form-avatar-fallback">
+            {user?.username ? user.username[0].toUpperCase() : "U"}
+          </div>
+        )}
+      </div>
+      <form className="tweet-form-content" onSubmit={handleSubmit}>
         <textarea
           className="tweet-textarea"
           placeholder="What's happening?"
@@ -53,7 +64,7 @@ const TweetForm = ({ onTweetCreated }) => {
             className="tweet-submit-btn"
             disabled={isSubmitting || !content.trim() || isOverLimit}
           >
-            {isSubmitting ? "Posting..." : "Ping"}
+            {isSubmitting ? "Posting..." : "Post"}
           </button>
         </div>
       </form>

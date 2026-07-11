@@ -1,15 +1,31 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { checkCurrentUser } from "../services/authService";
+import { getProfile } from "../services/userService";
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const setAuthUser = async (newUser) => {
+    if (newUser && newUser.username) {
+      try {
+        const profile = await getProfile(newUser.username);
+        setUser({ ...newUser, ...profile });
+      } catch (err) {
+        console.error("Failed to fetch profile details on setUser:", err);
+        setUser(newUser);
+      }
+    } else {
+      setUser(newUser);
+    }
+  };
+
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const user = await checkCurrentUser();
-        setUser(user);
+        const rawUser = await checkCurrentUser();
+        await setAuthUser(rawUser);
       } catch (err) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
@@ -21,8 +37,9 @@ export const AuthContextProvider = ({ children }) => {
     };
     initAuth();
   }, []);
+
   return (
-    <AuthContext.Provider value={{ user, loading, setUser }}>
+    <AuthContext.Provider value={{ user, loading, setUser: setAuthUser }}>
       {children}
     </AuthContext.Provider>
   );

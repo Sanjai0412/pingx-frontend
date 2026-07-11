@@ -18,6 +18,17 @@ export const saveRegister = async (userId, username) => {
   return response.data;
 };
 
+export const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+  const response = await apiClient.post("/users/upload-image", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  });
+  return response.data.data;
+}
+
 export const saveUserProfile = async ({
   username,
   displayName,
@@ -33,6 +44,11 @@ export const saveUserProfile = async ({
   return response.data;
 };
 
+export const getUserProfileById = async (userId) => {
+  const response = await apiClient.get(`/users/${userId}`);
+
+  return response.data;
+}
 export const verifyOtp = async (userId, otp) => {
   const response = await authClient.post("/verify", {
     userId,
@@ -53,31 +69,16 @@ export const resendOTP = async (userId) => {
 export const loginUser = async (email, password) => {
   const response = await authClient.post("/login", { email, password });
 
-  const { accessToken, refreshToken } = response.data;
-
-  localStorage.setItem("accessToken", accessToken);
-  localStorage.setItem("refreshToken", refreshToken);
-
   return response.data.user;
 };
 
 export const logoutUser = async () => {
-  const refreshToken = localStorage.getItem("refreshToken");
-
-  const response = await authClient.post("/logout", {
-    refreshToken,
-  });
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
+  const response = await authClient.post("/logout");
   return response;
 };
 
 export const checkCurrentUser = async () => {
-  const token = localStorage.getItem("accessToken");
 
-  if (!token) {
-    throw new Error("No token found");
-  }
   const response = await authClient.get("/me");
 
   if (!response.data.success) {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { logoutUser } from "../services/authService";
 import { fetchTweets } from "../services/tweetService";
 import { useNavigate } from "react-router-dom";
 import TweetForm from "../components/TweetForm";
@@ -37,15 +36,7 @@ const Home = () => {
     loadData();
   }, [authLoading, user, navigate]);
 
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-      setUser(null);
-      navigate("/login");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+
 
   const handleTweetCreated = (newTweet) => {
     setTweets((prevTweets) => [newTweet, ...prevTweets]);
@@ -60,27 +51,18 @@ const Home = () => {
   }
 
   return (
-    <div className="feed-container">
-      <header className="feed-header">
-        <div className="feed-brand">
-          <h2>PingX</h2>
-        </div>
-        <div className="feed-user-menu">
-          <span className="feed-user-welcome">
-            Hi, <strong>{user?.username}</strong>
-          </span>
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </header>
-
-      <main className="feed-main">
-        <TweetForm onTweetCreated={handleTweetCreated} />
-        {error && <div className="feed-error-banner">{error}</div>}
-        <TweetList tweets={tweets} loading={feedLoading} />
-      </main>
-    </div>
+    <>
+      <div className="feed-container">
+        <main className="feed-main">
+          <div className="home-header">
+            <h2>Home</h2>
+          </div>
+          <TweetForm onTweetCreated={handleTweetCreated} />
+          {error && <div className="feed-error-banner">{error}</div>}
+          <TweetList tweets={tweets} loading={feedLoading} />
+        </main>
+      </div>
+    </>
   );
 };
 

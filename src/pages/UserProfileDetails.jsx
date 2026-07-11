@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { saveUserProfile } from "../services/authService";
+import { saveUserProfile, uploadImage } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 const UserProfileDetails = () => {
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [error, setError] = useState(""); // Add error state
-  const { user: authUser } = useAuth();
+  const { user: authUser, setUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -22,14 +23,15 @@ const UserProfileDetails = () => {
     try {
       setError("");
       await saveUserProfile(user);
+      await setUser({ ...authUser, ...user });
       localStorage.removeItem("needsProfileSetup");
       navigate("/");
     } catch (err) {
       console.error(err);
       setError(
         err.response?.data?.message ||
-          err.message ||
-          "Failed to save profile details.",
+        err.message ||
+        "Failed to save profile details.",
       );
     }
   };
@@ -44,6 +46,7 @@ const UserProfileDetails = () => {
     try {
       setError("");
       await saveUserProfile(defaultUser);
+      await setUser({ ...authUser, ...defaultUser });
       localStorage.removeItem("needsProfileSetup");
       navigate("/");
     } catch (err) {
@@ -83,11 +86,16 @@ const UserProfileDetails = () => {
           />
           <input
             className="auth-input"
-            type="text"
-            value={profileImageUrl}
-            onChange={(e) => setProfileImageUrl(e.target.value)}
-            placeholder="Profile image URL"
+            type="file"
+            accept=".jpg, .jpeg, .png"
+            onChange={(e) => setProfileImage(e.target.files[0])}
           />
+          <button className="auth-button" onClick={async () => {
+            setProfileImageUrl(await uploadImage(profileImage));
+          }}>
+            Upload
+          </button>
+
           <button className="auth-button" onClick={handleSaveUser}>
             Save Profile
           </button>

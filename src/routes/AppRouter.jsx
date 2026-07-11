@@ -3,6 +3,9 @@ import UserProfileDetails from "../pages/userProfileDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
+import Search from "../pages/Search";
+import Profile from "../pages/Profile";
+import MainLayout from "../layout/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import OtpVerification from "../pages/OtpVerification";
@@ -36,14 +39,6 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/user-details"
           element={
             <ProtectedRoute>
@@ -51,6 +46,33 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         />
+        <Route element={<MainLayout />}>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <ProtectedRoute>
+                <Search />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/:username"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+
       </Routes>
     </BrowserRouter>
   );
