@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { likeTweet, unLikeTweet } from "../services/tweetService";
+import { likeTweet, unLikeTweet, retweetTweet, unRetweetTweet } from "../services/tweetService";
 import { CommentIcon, RetweetIcon, HeartIcon } from "./Icons";
 
 const TweetCard = ({ tweet }) => {
-  const { id, displayName, username, content, createdAt, likeCount, likedByCurrentUser, profileImgUrl } = tweet;
+  const { id, displayName, username, content, createdAt, likeCount, likedByCurrentUser, retweetCount, retweetedByCurrentUser, profileImgUrl } = tweet;
 
   const [liked, setLiked] = useState(likedByCurrentUser || false);
   const [likes, setLikes] = useState(likeCount || 0);
+  const [retweeted, setRetweeted] = useState(retweetedByCurrentUser || false);
+  const [retweets, setRetweets] = useState(retweetCount || 0);
   // Format timestamp nicely
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -34,6 +36,18 @@ const TweetCard = ({ tweet }) => {
     }
   };
 
+  const handleRetweet = async () => {
+    try {
+      const response = retweeted ? await unRetweetTweet(id) : await retweetTweet(id);
+      if (response.success) {
+        setRetweeted(!retweeted);
+        setRetweets(retweeted ? retweets - 1 : retweets + 1);
+      }
+    } catch (err) {
+      console.error("Failed to toggle retweet: ", err);
+    }
+  };
+
   return (
     <div className="tweet-card">
       {profileImgUrl ? (
@@ -57,9 +71,9 @@ const TweetCard = ({ tweet }) => {
             <CommentIcon size={16} />
             <span>0</span>
           </button>
-          <button className="tweet-action-btn retweet-btn">
+          <button className="tweet-action-btn retweet-btn" onClick={handleRetweet}>
             <RetweetIcon size={16} />
-            <span>0</span>
+            <span>{retweets}</span>
           </button>
           <button className={`tweet-action-btn like-btn ${liked ? "liked" : ""}`} onClick={handleLike}>
             <HeartIcon size={16} filled={liked} />

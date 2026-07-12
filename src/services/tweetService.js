@@ -28,3 +28,13 @@ export const unLikeTweet = async (tweetId) => {
 
     return response.data;
 }
+
+export const retweetTweet = async (tweetId) => {
+    const response = await apiClient.post(`/tweets/${tweetId}/retweet`)
+    return response.data;
+}
+
+export const unRetweetTweet = async (tweetId) => {
+    const response = await apiClient.delete(`/tweets/${tweetId}/retweet`)
+    return response.data;
+}
