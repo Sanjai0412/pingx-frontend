@@ -1,0 +1,200 @@
+/* feed.css */
+
+.tweet-card {
+  display: flex;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  transition: background-color 0.2s;
+  text-align: left;
+}
+
+.tweet-card:hover {
+  background-color: var(--code-bg);
+}
+
+.tweet-avatar,
+.tweet-avatar-fallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tweet-avatar {
+  object-fit: cover;
+}
+
+.tweet-avatar-fallback {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-border);
+}
+
+.tweet-content-wrapper {
+  flex-grow: 1;
+}
+
+.tweet-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.tweet-author {
+  font-weight: 700;
+  color: var(--text-h);
+  font-size: 15px;
+}
+
+.tweet-username {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.tweet-divider {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.tweet-time {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.tweet-body {
+  font-size: 15px;
+  color: var(--text-h);
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tweet-actions {
+  display: flex;
+  gap: 40px;
+}
+
+.tweet-action-btn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.tweet-action-btn.comment-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+  color: #1d9bf0;
+}
+
+.tweet-action-btn.retweet-btn:hover {
+  background-color: rgba(0, 186, 124, 0.1);
+  color: #00ba7c;
+}
+
+.tweet-action-btn.retweet-btn.retweeted {
+  color: #00ba7c;
+}
+
+.tweet-action-btn.like-btn:hover {
+  background-color: rgba(249, 24, 128, 0.1);
+  color: #f91880;
+}
+
+.tweet-action-btn.like-btn.liked {
+  color: #f91880;
+}
+
+.tweet-action-btn.like-btn.liked:hover {
+  background-color: rgba(249, 24, 128, 0.1);
+  color: #f91880;
+}
+
+/* Quoted Tweet Cards styling */
+.quoted-tweet-card {
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quoted-tweet-card:hover {
+  background-color: var(--code-bg);
+}
+
+/* Compact (small) layout components for Quoted tweets */
+.tweet-avatar-small,
+.tweet-avatar-fallback-small {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tweet-avatar-small {
+  object-fit: cover;
+}
+
+.tweet-avatar-fallback-small {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-border);
+}
+
+.tweet-header-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tweet-author-small {
+  font-weight: 700;
+  color: var(--text-h);
+  font-size: 14px;
+}
+
+.tweet-username-small {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.tweet-divider-small {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.tweet-time-small {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.tweet-body-small {
+  font-size: 14px;
+  color: var(--text-h);
+  line-height: 1.4;
+  margin: 6px 0 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

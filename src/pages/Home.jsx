@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { fetchTweets } from "../services/tweetService";
 import { useNavigate } from "react-router-dom";
-import TweetForm from "../components/TweetForm";
-import TweetList from "../components/TweetList";
+import TweetForm from "../components/tweet/TweetForm";
+import TweetList from "../components/tweet/TweetList";
 
 const Home = () => {
   const { user, loading: authLoading, setUser } = useAuth();
@@ -24,6 +24,7 @@ const Home = () => {
     const loadData = async () => {
       try {
         const data = await fetchTweets();
+        console.log(data);
         setTweets(Array.isArray(data.data) ? data.data : []);
       } catch (err) {
         console.error("Error fetching tweets:", err);
@@ -35,8 +36,6 @@ const Home = () => {
 
     loadData();
   }, [authLoading, user, navigate]);
-
-
 
   const handleTweetCreated = (newTweet) => {
     setTweets((prevTweets) => [newTweet, ...prevTweets]);
@@ -59,7 +58,7 @@ const Home = () => {
           </div>
           <TweetForm onTweetCreated={handleTweetCreated} />
           {error && <div className="feed-error-banner">{error}</div>}
-          <TweetList tweets={tweets} loading={feedLoading} />
+          <TweetList tweets={tweets} loading={feedLoading} onTweetCreated={handleTweetCreated} />
         </main>
       </div>
     </>

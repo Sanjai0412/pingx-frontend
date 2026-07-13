@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { createTweet } from "../services/tweetService";
-import { useAuth } from "../hooks/useAuth";
+import { createTweet } from "../../services/tweetService";
+import { useAuth } from "../../hooks/useAuth";
+import "./tweet.css";
 
 const TweetForm = ({ onTweetCreated }) => {
   const { user } = useAuth();
@@ -19,12 +20,12 @@ const TweetForm = ({ onTweetCreated }) => {
 
     try {
       const newTweet = await createTweet(content);
-      onTweetCreated(newTweet.data); // Pass the newly created tweet to parent component
+      onTweetCreated(newTweet); // Pass the newly created tweet to parent component
       setContent(""); // Clear input
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "Failed to post tweet. Please try again.",
+        "Failed to post tweet. Please try again.",
       );
     } finally {
       setIsSubmitting(false);

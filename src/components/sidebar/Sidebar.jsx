@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { HomeIcon, SearchIcon, ProfileIcon, LogoutIcon } from "./Icons";
+import { HomeIcon, SearchIcon, ProfileIcon, LogoutIcon } from "../Icons";
 import "./Sidebar.css";
 
 const Sidebar = ({ user, onLogout }) => {

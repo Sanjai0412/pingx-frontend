@@ -38,3 +38,11 @@ export const unRetweetTweet = async (tweetId) => {
     const response = await apiClient.delete(`/tweets/${tweetId}/retweet`)
     return response.data;
 }
+
+export const quoteRetweet = async (tweetId, content) => {
+    const response = await apiClient.post("/tweets/", {
+        content: content,
+        quoteTweetId: tweetId
+    })
+    return response.data;
+}

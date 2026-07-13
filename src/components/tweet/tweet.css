@@ -1,0 +1,277 @@
+/* tweet.css */
+
+/* Tweet Form Styling */
+.tweet-form-container {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tweet-form-avatar-col {
+  flex-shrink: 0;
+}
+
+.tweet-form-avatar,
+.tweet-form-avatar-fallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.tweet-form-avatar {
+  object-fit: cover;
+}
+
+.tweet-form-avatar-fallback {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-border);
+}
+
+.tweet-form-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tweet-textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-family: var(--sans);
+  font-size: 18px;
+  color: var(--text-h);
+  background: transparent;
+  outline: none;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.tweet-textarea::placeholder {
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.tweet-form-error {
+  color: #ef4444;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.tweet-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+}
+
+.char-counter {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.char-counter.over-limit {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.tweet-submit-btn {
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.tweet-submit-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.tweet-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tweet List Status */
+.tweet-list-status {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text);
+}
+
+.tweet-list-status.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.empty-icon {
+  font-size: 32px;
+}
+
+.feed-error-banner {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Retweet Modal/Popup Styling */
+.retweet-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.retweet-modal-content {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.retweet-modal-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-h);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.retweet-modal-option:hover {
+  background-color: var(--code-bg);
+}
+
+.retweet-modal-option svg {
+  color: var(--text);
+}
+
+.retweet-modal-option:first-child {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Quote Retweet Modal Styling */
+.quote-modal-form {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quote-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quote-modal-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-h);
+}
+
+.quote-modal-back {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.quote-modal-back:hover {
+  background-color: var(--accent-bg);
+  color: var(--accent);
+}
+
+.quote-modal-textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text-h);
+  background: transparent;
+  outline: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.quote-modal-textarea::placeholder {
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.quote-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quote-modal-submit-btn {
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  background-color: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.quote-modal-submit-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.quote-modal-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

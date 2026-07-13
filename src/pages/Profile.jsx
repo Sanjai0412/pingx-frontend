@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProfile } from "../services/userService";
 import ProfileCard from "../components/profileCard";
-import TweetList from "../components/TweetList";
+import TweetList from "../components/tweet/TweetList";
 import { useAuth } from "../hooks/useAuth";
 import { fetchUserTweets } from "../services/tweetService";
 import "./Profile.css";
@@ -40,6 +40,12 @@ const Profile = () => {
     }
     const isOwnProfile = user.username === userProfile?.username;
 
+    const handleTweetCreated = (newTweet) => {
+        if (isOwnProfile) {
+            setTweets((prevTweets) => [newTweet, ...prevTweets]);
+        }
+    };
+
     return (
         <div className="profile-container">
             <div className="profile-page-header">
@@ -55,21 +61,21 @@ const Profile = () => {
             <ProfileCard profile={userProfile} isOwnProfile={isOwnProfile} />
 
             <div className="profile-tabs">
-                <div 
+                <div
                     className={`profile-tab ${activeTab === "tweets" ? "active" : ""}`}
                     onClick={() => setActiveTab("tweets")}
                 >
                     Posts
                     {activeTab === "tweets" && <div className="profile-tab-indicator" />}
                 </div>
-                <div 
+                <div
                     className={`profile-tab ${activeTab === "replies" ? "active" : ""}`}
                     onClick={() => setActiveTab("replies")}
                 >
                     Replies
                     {activeTab === "replies" && <div className="profile-tab-indicator" />}
                 </div>
-                <div 
+                <div
                     className={`profile-tab ${activeTab === "likes" ? "active" : ""}`}
                     onClick={() => setActiveTab("likes")}
                 >
@@ -78,7 +84,7 @@ const Profile = () => {
                 </div>
             </div>
 
-            <TweetList tweets={tweets} loading={false} />
+            <TweetList tweets={tweets} loading={false} onTweetCreated={handleTweetCreated} />
         </div>
     );
 };
