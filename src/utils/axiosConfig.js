@@ -3,13 +3,12 @@ import axios from "axios";
 // Request Interceptors
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8080/api",
-  withCredentials: true
+  baseURL: import.meta.process.env.API_BASE_URL,
+  withCredentials: true,
 });
-
 const authClient = axios.create({
-  baseURL: "http://localhost:3000/auth",
-  withCredentials: true
+  baseURL: import.meta.env.AUTH_BASE_URL,
+  withCredentials: true,
 });
 //=====================================================================
 
@@ -62,7 +61,6 @@ const handleAuthError = async (error, client) => {
 
   return Promise.reject(error);
 };
-
 
 // for response
 authClient.interceptors.response.use(
