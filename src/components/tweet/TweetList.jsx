@@ -1,4 +1,3 @@
-import React from "react";
 import TweetCard from "../feed/TweetCard";
 import "./tweet.css";
 
@@ -18,9 +17,15 @@ const TweetList = ({ tweets, loading, onTweetCreated }) => {
 
   return (
     <div className="tweet-list">
-      {tweets.map((tweet) => (
-        <TweetCard key={tweet.id} tweet={tweet} onTweetCreated={onTweetCreated} />
-      ))}
+      {tweets.map((tweet) => {
+        return (
+          <TweetCard
+            key={tweet.id}
+            tweet={tweet}
+            onTweetCreated={onTweetCreated}
+          />
+        );
+      })}
     </div>
   );
 };

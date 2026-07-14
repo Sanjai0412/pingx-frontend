@@ -9,6 +9,7 @@ import MainLayout from "../layout/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import OtpVerification from "../pages/OtpVerification";
+import TweetDetail from "../pages/TweetDetail";
 
 const AppRouter = () => {
   return (
@@ -71,8 +72,15 @@ const AppRouter = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/tweets/:tweetId"
+            element={
+              <ProtectedRoute>
+                <TweetDetail />
+              </ProtectedRoute>
+            }
+          />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

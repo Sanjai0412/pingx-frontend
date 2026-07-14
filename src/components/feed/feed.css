@@ -1,6 +1,7 @@
 /* feed.css */
 
-.tweet-card {
+.tweet-card,
+.comment-card {
   display: flex;
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
@@ -9,23 +10,28 @@
   text-align: left;
 }
 
-.tweet-card:hover {
+.tweet-card:hover,
+.comment-card:hover {
   background-color: var(--code-bg);
 }
 
 .tweet-avatar,
-.tweet-avatar-fallback {
+.tweet-avatar-fallback,
+.comment-avatar,
+.comment-avatar-fallback {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.tweet-avatar {
+.tweet-avatar,
+.comment-avatar {
   object-fit: cover;
 }
 
-.tweet-avatar-fallback {
+.tweet-avatar-fallback,
+.comment-avatar-fallback {
   background: var(--accent-bg);
   color: var(--accent);
   font-weight: 700;
@@ -36,10 +42,12 @@
   border: 1px solid var(--accent-border);
 }
 
-.tweet-content-wrapper {
+.tweet-content-wrapper,
+.comment-content-wrapper {
   flex-grow: 1;
 }
 
+.comment-header,
 .tweet-header {
   display: flex;
   align-items: center;
@@ -48,27 +56,32 @@
   flex-wrap: wrap;
 }
 
+.comment-author,
 .tweet-author {
   font-weight: 700;
   color: var(--text-h);
   font-size: 15px;
 }
 
+.comment-username,
 .tweet-username {
   color: var(--text);
   font-size: 14px;
 }
 
+.comment-divider,
 .tweet-divider {
   color: var(--text);
   font-size: 14px;
 }
 
+.comment-time,
 .tweet-time {
   color: var(--text);
   font-size: 14px;
 }
 
+.comment-body,
 .tweet-body {
   font-size: 15px;
   color: var(--text-h);
@@ -78,11 +91,13 @@
   word-break: break-word;
 }
 
+.comment-actions,
 .tweet-actions {
   display: flex;
   gap: 40px;
 }
 
+.comment-action-btn,
 .tweet-action-btn {
   background: transparent;
   border: none;
@@ -97,29 +112,35 @@
   transition: all 0.2s;
 }
 
-.tweet-action-btn.comment-btn:hover {
+.tweet-action-btn.comment-btn:hover,
+.comment-action-btn.comment-btn:hover {
   background-color: rgba(29, 155, 240, 0.1);
   color: #1d9bf0;
 }
 
+.comment-action-btn.retweet-btn:hover,
 .tweet-action-btn.retweet-btn:hover {
   background-color: rgba(0, 186, 124, 0.1);
   color: #00ba7c;
 }
 
+.comment-action-btn.retweet-btn.retweeted,
 .tweet-action-btn.retweet-btn.retweeted {
   color: #00ba7c;
 }
 
+.comment-action-btn.like-btn:hover,
 .tweet-action-btn.like-btn:hover {
   background-color: rgba(249, 24, 128, 0.1);
   color: #f91880;
 }
 
+.comment-action-btn.like-btn.liked,
 .tweet-action-btn.like-btn.liked {
   color: #f91880;
 }
 
+.comment-action-btn.like-btn.liked:hover,
 .tweet-action-btn.like-btn.liked:hover {
   background-color: rgba(249, 24, 128, 0.1);
   color: #f91880;

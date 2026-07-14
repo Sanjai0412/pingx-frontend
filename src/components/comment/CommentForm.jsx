@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { createTweet } from "../../services/tweetService";
 import { useAuth } from "../../hooks/useAuth";
-import "./tweet.css";
+import { createComment } from "../../services/tweetService";
+import "./comment.css";
 
-const TweetForm = ({ onTweetCreated }) => {
+const CommentForm = ({ tweetId, onCommentCreated }) => {
   const { user } = useAuth();
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,55 +19,53 @@ const TweetForm = ({ onTweetCreated }) => {
     setError("");
 
     try {
-      const newTweet = await createTweet(content);
-      onTweetCreated(newTweet.data); // Pass the newly created tweet to parent component
-
+      const newComment = await createComment(tweetId, content);
+      onCommentCreated(newComment.data); // Pass the newly created comment to parent component
       setContent(""); // Clear input
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "Failed to post tweet. Please try again.",
+          "Failed to post comment. Please try again.",
       );
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const charCount = content.length;
   const isOverLimit = charCount > maxChars;
 
   return (
-    <div className="tweet-form-container">
-      <div className="tweet-form-avatar-col">
+    <div className="comment-form-container">
+      <div className="comment-form-avatar-col">
         {user?.profileImgUrl ? (
           <img
-            className="tweet-form-avatar"
+            className="comment-form-avatar"
             src={user.profileImgUrl}
             alt="Avatar"
           />
         ) : (
-          <div className="tweet-form-avatar-fallback">
+          <div className="comment-form-avatar-fallback">
             {user?.username ? user.username[0].toUpperCase() : "U"}
           </div>
         )}
       </div>
-      <form className="tweet-form-content" onSubmit={handleSubmit}>
+      <form className="comment-form-content" onSubmit={handleSubmit}>
         <textarea
-          className="tweet-textarea"
-          placeholder="What's happening?"
+          className="comment-textarea"
+          placeholder="Post your reply"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           disabled={isSubmitting}
           rows={3}
         />
-        {error && <div className="tweet-form-error">{error}</div>}
-        <div className="tweet-form-footer">
+        {error && <div className="comment-form-error">{error}</div>}
+        <div className="comment-form-footer">
           <span className={`char-counter ${isOverLimit ? "over-limit" : ""}`}>
             {maxChars - charCount}
           </span>
           <button
             type="submit"
-            className="tweet-submit-btn"
+            className="comment-submit-btn"
             disabled={isSubmitting || !content.trim() || isOverLimit}
           >
             {isSubmitting ? "Posting..." : "Post"}
@@ -78,4 +76,4 @@ const TweetForm = ({ onTweetCreated }) => {
   );
 };
 
-export default TweetForm;
+export default CommentForm;

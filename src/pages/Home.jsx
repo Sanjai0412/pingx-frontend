@@ -1,19 +1,38 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { fetchTweets } from "../services/tweetService";
 import { useNavigate } from "react-router-dom";
+
 import TweetForm from "../components/tweet/TweetForm";
-import TweetList from "../components/tweet/TweetList";
+import FeedList from "../components/feed/FeedList";
+
+import { fetchFeed } from "../services/feedService";
 
 const Home = () => {
-  const { user, loading: authLoading, setUser } = useAuth();
-  const [tweets, setTweets] = useState([]);
+  const { user, loading: authLoading } = useAuth();
+
+  const [feed, setFeed] = useState([]);
   const [feedLoading, setFeedLoading] = useState(true);
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (authLoading || !user) return;
+
+    const loadFeed = async () => {
+      try {
+        setFeedLoading(true);
+
+        const response = await fetchFeed(20, 0);
+
+        setFeed(Array.isArray(response.data) ? response.data : []);
+      } catch (err) {
+        console.error("Error fetching feed:", err);
+        setError("Could not load feed. Please try again later.");
+      } finally {
+        setFeedLoading(false);
+      }
+    };
 
     const needsSetup = localStorage.getItem("needsProfileSetup");
     if (needsSetup === "true") {
@@ -21,27 +40,22 @@ const Home = () => {
       return;
     }
 
-    const loadData = async () => {
-      try {
-        const data = await fetchTweets();
-        console.log(data);
-        setTweets(Array.isArray(data.data) ? data.data : []);
-      } catch (err) {
-        console.error("Error fetching tweets:", err);
-        setError("Could not load feed. Please try again later.");
-      } finally {
-        setFeedLoading(false);
-      }
-    };
-
-    loadData();
+    loadFeed();
   }, [authLoading, user, navigate]);
 
   const handleTweetCreated = (newTweet) => {
-    setTweets((prevTweets) => [newTweet, ...prevTweets]);
+    const feedItem = {
+      type: "TWEET",
+      activityAt: newTweet.createdAt,
+      performedBy: newTweet.author,
+      tweet: newTweet,
+    };
+
+    setFeed((prev) => [feedItem, ...prev]);
+    console.log(feed);
   };
 
-  if (authLoading) {
+  if (authLoading || feedLoading) {
     return (
       <div className="auth-container">
         <h1>Loading...</h1>
@@ -50,18 +64,19 @@ const Home = () => {
   }
 
   return (
-    <>
-      <div className="feed-container">
-        <main className="feed-main">
-          <div className="home-header">
-            <h2>Home</h2>
-          </div>
-          <TweetForm onTweetCreated={handleTweetCreated} />
-          {error && <div className="feed-error-banner">{error}</div>}
-          <TweetList tweets={tweets} loading={feedLoading} onTweetCreated={handleTweetCreated} />
-        </main>
-      </div>
-    </>
+    <div className="feed-container">
+      <main className="feed-main">
+        <div className="home-header">
+          <h2>Home</h2>
+        </div>
+
+        <TweetForm onTweetCreated={handleTweetCreated} />
+
+        {error && <div className="feed-error-banner">{error}</div>}
+
+        <FeedList feed={feed} onTweetCreated={handleTweetCreated} />
+      </main>
+    </div>
   );
 };
 

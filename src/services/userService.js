@@ -5,7 +5,6 @@ export const searchUser = async (query) => {
         return;
     }
     const response = await apiClient.get(`/users/search?q=${query}`);
-    console.log(response.data);
     return response.data;
 }
 

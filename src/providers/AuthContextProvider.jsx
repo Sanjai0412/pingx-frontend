@@ -7,6 +7,7 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Add user profile to authenticated user
   const setAuthUser = async (newUser) => {
     if (newUser && newUser.username) {
       try {
@@ -24,11 +25,9 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const rawUser = await checkCurrentUser();
+        const rawUser = await checkCurrentUser(); // check JWT tokens in cookie
         await setAuthUser(rawUser);
       } catch (err) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
         setUser(null);
         console.error(err);
       } finally {
