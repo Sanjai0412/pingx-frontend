@@ -159,8 +159,8 @@ npm install
 Create a `.env` file.
 
 ```env
-VITE_API_BASE_URL=http://localhost:8080/api
-VITE_AUTH_BASE_URL=http://localhost:3000/auth
+API_BASE_URL=http://localhost:8080/api
+AUTH_BASE_URL=http://localhost:3000/auth
 ```
 
 ---
