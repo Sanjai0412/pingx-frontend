@@ -1,4 +1,5 @@
 import CommentCard from "../feed/CommentCard";
+import { CommentIcon } from "../Icons";
 
 const CommentList = ({ comments, loading, onCommentCreated }) => {
   if (loading) {
@@ -7,7 +8,9 @@ const CommentList = ({ comments, loading, onCommentCreated }) => {
   if (!comments || comments.length === 0) {
     return (
       <div className="comment-list-status empty-state">
-        <span className="empty-icon">📭</span>
+        <span className="empty-icon">
+          <CommentIcon />
+        </span>
         <p>No comments yet. Be the first one to share something!</p>
       </div>
     );

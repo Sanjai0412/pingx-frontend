@@ -6,6 +6,7 @@ import TweetForm from "../components/tweet/TweetForm";
 import FeedList from "../components/feed/FeedList";
 
 import { fetchFeed } from "../services/feedService";
+import { getNotificationsByUserId } from "../services/notificationService";
 
 const Home = () => {
   const { user, loading: authLoading } = useAuth();
@@ -21,6 +22,7 @@ const Home = () => {
 
     const loadFeed = async () => {
       try {
+        console.log("Notifications", await getNotificationsByUserId());
         setFeedLoading(true);
 
         const response = await fetchFeed(20, 0);

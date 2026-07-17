@@ -3,11 +3,11 @@ import axios from "axios";
 // Request Interceptors
 
 const apiClient = axios.create({
-  baseURL: import.meta.process.env.API_BASE_URL,
+  baseURL: "http://localhost:8080/api",
   withCredentials: true,
 });
 const authClient = axios.create({
-  baseURL: import.meta.env.AUTH_BASE_URL,
+  baseURL: "http://localhost:3000/auth",
   withCredentials: true,
 });
 //=====================================================================

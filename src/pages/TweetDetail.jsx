@@ -3,7 +3,7 @@ import CommentForm from "../components/comment/CommentForm";
 import { useAuth } from "../hooks/useAuth";
 import { fetchCommentsByTweetId, fetchTweet } from "../services/tweetService";
 import CommentList from "../components/comment/ComentList";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TweetCard from "../components/feed/TweetCard";
 
 const TweetDetail = () => {
@@ -13,6 +13,7 @@ const TweetDetail = () => {
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
   const { tweetId } = useParams();
   useEffect(() => {
     if (authLoading || !user) return;
@@ -21,7 +22,6 @@ const TweetDetail = () => {
         const tweet = await fetchTweet(tweetId);
         setTweet(tweet.data);
         const data = await fetchCommentsByTweetId(tweetId);
-        console.log("Fetched comments: ", data.data);
         setComments(Array.isArray(data.data) ? data.data : []);
       } catch (err) {
         console.error("Error fetchig comments: ", err);
@@ -37,7 +37,9 @@ const TweetDetail = () => {
   };
   return (
     <div>
-      <div className="back-btn">{"<-"}</div>
+      <button className="profile-back-btn" onClick={() => navigate(-1)}>
+        ←
+      </button>
       <div className="tweet-holder">{tweet && <TweetCard tweet={tweet} />}</div>
       <CommentForm tweetId={tweetId} onCommentCreated={handleCommentCreated} />
       {error && <div className="comment-error-banner">{error}</div>}

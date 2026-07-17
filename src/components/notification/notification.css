@@ -1,0 +1,174 @@
+/* notification.css */
+
+.notifications-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  min-height: 100vh;
+}
+
+.notifications-header {
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  z-index: 5;
+  text-align: left;
+}
+
+@media (prefers-color-scheme: dark) {
+  .notifications-header {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+}
+
+.notifications-header h2 {
+  font-size: 19px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-h);
+}
+
+.notification-card {
+  display: flex;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: var(--bg);
+  text-align: left;
+}
+
+.notification-card:hover {
+  background-color: var(--code-bg);
+}
+
+.notification-left {
+  display: flex;
+  justify-content: flex-end;
+  width: 40px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.notification-right {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 8px;
+}
+
+.notification-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.notification-icon.like-icon {
+  color: #f91880;
+}
+
+.notification-icon.retweet-icon {
+  color: #00ba7c;
+}
+
+.notification-icon.comment-icon,
+.notification-icon.quote-icon,
+.notification-icon.follow-icon {
+  color: #1d9bf0;
+}
+
+.notification-avatar-container {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.notification-avatar,
+.notification-avatar-fallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.notification-avatar-fallback {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-border);
+}
+
+.notification-content {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--text-h);
+}
+
+.notification-actor-name {
+  font-weight: 700;
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.notification-actor-name:hover {
+  text-decoration: underline;
+}
+
+.notification-message-text {
+  color: var(--text-h);
+}
+
+.notification-time-dot {
+  color: var(--text);
+  margin: 0 4px;
+}
+
+.notification-time {
+  color: var(--text);
+}
+
+.notification-tweet-preview {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  margin-top: 4px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: var(--bg);
+}
+
+.notification-card:hover .notification-tweet-preview {
+  background-color: var(--bg);
+}
+
+/* Loading and Empty State Styling */
+.notifications-loading {
+  padding: 40px;
+  text-align: center;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.no-notifications {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text);
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
