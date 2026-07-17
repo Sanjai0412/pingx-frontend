@@ -22,7 +22,6 @@ const Home = () => {
 
     const loadFeed = async () => {
       try {
-        console.log("Notifications", await getNotificationsByUserId());
         setFeedLoading(true);
 
         const response = await fetchFeed(20, 0);

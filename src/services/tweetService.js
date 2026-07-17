@@ -53,14 +53,14 @@ export const quoteRetweet = async (tweetId, content) => {
 };
 
 export const createComment = async (tweetId, content) => {
-  const response = await apiClient.post(`/tweets/${tweetId}/comment`, {
+  const response = await apiClient.post(`/tweets/${tweetId}/reply`, {
     content,
   });
   return response.data;
 };
 
 export const fetchCommentsByTweetId = async (tweetId) => {
-  const response = await apiClient.get(`/tweets/${tweetId}/comment`);
+  const response = await apiClient.get(`/tweets/${tweetId}/replies`);
   return response.data;
 };
 export const replyComment = async (commentId, content) => {};

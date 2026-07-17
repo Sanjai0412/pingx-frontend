@@ -15,6 +15,7 @@ const TweetActions = ({ tweet, onTweetCreated }) => {
     likeCount,
     likedByCurrentUser,
     retweetCount,
+    replyCount,
     retweetedByCurrentUser,
   } = tweet;
   const [liked, setLiked] = useState(likedByCurrentUser || false);
@@ -65,14 +66,9 @@ const TweetActions = ({ tweet, onTweetCreated }) => {
   };
   return (
     <div className="tweet-actions">
-      <button
-        className="tweet-action-btn comment-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
+      <button className="tweet-action-btn comment-btn">
         <CommentIcon size={16} />
-        <span>0</span>
+        <span>{replyCount}</span>
       </button>
       {showRetweetMenu && (
         <RetweetPopup

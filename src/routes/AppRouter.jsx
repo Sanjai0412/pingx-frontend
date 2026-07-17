@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserProfileDetails from "../pages/userProfileDetails";
+import UserProfileDetails from "../pages/UserProfileSetup";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
@@ -11,6 +11,7 @@ import PublicRoute from "./PublicRoute";
 import OtpVerification from "../pages/OtpVerification";
 import TweetDetail from "../pages/TweetDetail";
 import Notifications from "../pages/Notifications";
+import EditProfile from "../pages/EditProfile";
 
 const AppRouter = () => {
   return (
@@ -86,6 +87,14 @@ const AppRouter = () => {
             element={
               <ProtectedRoute>
                 <TweetDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/profile"
+            element={
+              <ProtectedRoute>
+                <EditProfile />
               </ProtectedRoute>
             }
           />

@@ -1,10 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import formatDate from "../../utils/dateFormatter";
 
 const TweetHeader = ({ author, createdAt, compact }) => {
+  const navigate = useNavigate();
   return (
     <div className="tweet-header">
       {author.profileImgUrl ? (
         <img
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/profile/${author.username}`);
+          }}
           className={compact ? "tweet-avatar-small" : "tweet-avatar"}
           src={author.profileImgUrl}
           alt="Avatar"
@@ -19,10 +25,22 @@ const TweetHeader = ({ author, createdAt, compact }) => {
         </div>
       )}
       <div className={"tweet-header-info"}>
-        <span className={compact ? "tweet-author-small" : "tweet-author"}>
+        <span
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/profile/${author.username}`);
+          }}
+          className={compact ? "tweet-author-small" : "tweet-author"}
+        >
           {author.displayName || author.username}
         </span>
-        <span className={compact ? "tweet-username-small" : "tweet-username"}>
+        <span
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/profile/${author.username}`);
+          }}
+          className={compact ? "tweet-username-small" : "tweet-username"}
+        >
           @{author.username}
         </span>
       </div>

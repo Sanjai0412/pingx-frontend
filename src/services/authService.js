@@ -24,10 +24,10 @@ export const uploadImage = async (file) => {
   const response = await apiClient.post("/users/upload-image", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
-    }
+    },
   });
   return response.data.data;
-}
+};
 
 export const saveUserProfile = async ({
   username,
@@ -35,7 +35,7 @@ export const saveUserProfile = async ({
   bio,
   profileImgUrl,
 }) => {
-  const response = await apiClient.post("/users", {
+  const response = await apiClient.post("/users/", {
     username,
     displayName,
     bio,
@@ -44,11 +44,18 @@ export const saveUserProfile = async ({
   return response.data;
 };
 
+export const updateProfile = async (profileData) => {
+  // profileData can be: { displayName, bio, profileImgUrl, username }
+  // or any subset of them (e.g. just { bio: "my new bio" })
+  const response = await apiClient.put("/users/update", profileData);
+  return response.data.data; // This returns the updated UserResponse DTO
+};
+
 export const getUserProfileById = async (userId) => {
   const response = await apiClient.get(`/users/${userId}`);
 
   return response.data;
-}
+};
 export const verifyOtp = async (userId, otp) => {
   const response = await authClient.post("/verify", {
     userId,
@@ -78,7 +85,6 @@ export const logoutUser = async () => {
 };
 
 export const checkCurrentUser = async () => {
-
   const response = await authClient.get("/me");
 
   if (!response.data.success) {
