@@ -9,12 +9,12 @@ const setAccessToken = (token) => {
 };
 
 const apiClient = axios.create({
-  baseURL: "https://pingx-gateway.onrender.com/api",
+  baseURL: "https://pingx-backend-gsb2.onrender.com/api",
   withCredentials: true,
 });
 
 const authClient = axios.create({
-  baseURL: "https://pingx-gateway.onrender.com/auth",
+  baseURL: "https://auth-service-lgiu.onrender.com/auth",
   withCredentials: true,
 });
 
