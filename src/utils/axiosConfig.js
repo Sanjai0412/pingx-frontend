@@ -3,7 +3,7 @@ import axios from "axios";
 // Request Interceptors
 
 const apiClient = axios.create({
-  baseURL: "https://pingx-backend-gsb2.onrender.com",
+  baseURL: "https://pingx-backend-gsb2.onrender.com/api",
   withCredentials: true,
 });
 const authClient = axios.create({
