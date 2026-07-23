@@ -79,8 +79,8 @@ const UserProfileDetails = () => {
 
       setError(
         err.response?.data?.message ||
-          err.message ||
-          "Failed to save profile details.",
+        err.message ||
+        "Failed to save profile details.",
       );
     } finally {
       setSaving(false);

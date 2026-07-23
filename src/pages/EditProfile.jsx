@@ -76,8 +76,8 @@ const EditProfile = () => {
 
       setError(
         err.response?.data?.message ||
-          err.message ||
-          "Failed to update profile.",
+        err.message ||
+        "Failed to update profile.",
       );
     } finally {
       setSaving(false);
@@ -106,7 +106,7 @@ const EditProfile = () => {
               profileImage
                 ? URL.createObjectURL(profileImage)
                 : authUser?.profileImgUrl ||
-                  "https://placehold.co/120x120?text=User"
+                "https://placehold.co/120x120?text=User"
             }
             alt="Profile Preview"
             className="profile-preview"

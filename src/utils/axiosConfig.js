@@ -3,11 +3,11 @@ import axios from "axios";
 // Request Interceptors
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "https://pingx-backend-gsb2.onrender.com",
   withCredentials: true,
 });
 const authClient = axios.create({
-  baseURL: "http://localhost:3000/auth",
+  baseURL: "https://auth-service-lgiu.onrender.com/auth",
   withCredentials: true,
 });
 //=====================================================================
