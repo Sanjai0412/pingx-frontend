@@ -1,4 +1,4 @@
-import { apiClient, authClient } from "../utils/axiosConfig";
+import { apiClient, authClient, setAccessToken } from "../utils/axiosConfig";
 
 export const registerUser = async (username, email, password) => {
   const response = await authClient.post("/register", {
@@ -75,13 +75,19 @@ export const resendOTP = async (userId) => {
 
 export const loginUser = async (email, password) => {
   const response = await authClient.post("/login", { email, password });
-
+  if (response.data.accessToken) {
+    setAccessToken(response.data.accessToken);
+  }
   return response.data.user;
 };
 
 export const logoutUser = async () => {
-  const response = await authClient.post("/logout");
-  return response;
+  try {
+    const response = await authClient.post("/logout");
+    return response;
+  } finally {
+    setAccessToken(null);
+  }
 };
 
 export const checkCurrentUser = async () => {

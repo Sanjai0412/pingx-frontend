@@ -1,27 +1,40 @@
 import axios from "axios";
 
-// Request Interceptors
+let accessTokenMemory = null;
+
+const getAccessToken = () => accessTokenMemory;
+
+const setAccessToken = (token) => {
+  accessTokenMemory = token || null;
+};
 
 const apiClient = axios.create({
   baseURL: "https://pingx-gateway.onrender.com/api",
   withCredentials: true,
 });
+
 const authClient = axios.create({
   baseURL: "https://pingx-gateway.onrender.com/auth",
   withCredentials: true,
 });
-//=====================================================================
+
+// Request Interceptors - attach Authorization Bearer token header if available
+const attachAuthToken = (config) => {
+  const token = getAccessToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+};
+
+apiClient.interceptors.request.use(attachAuthToken, (error) => Promise.reject(error));
+authClient.interceptors.request.use(attachAuthToken, (error) => Promise.reject(error));
 
 // Response Interceptors
-
-// To handle refresh token error
 const handleAuthError = async (error, client) => {
   const originalRequest = error.config;
 
-  if (originalRequest.url.includes("/refresh")) {
-    return Promise.reject(error);
-  }
-  if (!originalRequest) {
+  if (!originalRequest || originalRequest.url.includes("/refresh") || originalRequest.url.includes("/login")) {
     return Promise.reject(error);
   }
 
@@ -30,7 +43,8 @@ const handleAuthError = async (error, client) => {
     window.location.pathname.includes("/register") ||
     window.location.pathname.includes("/verify");
 
-  if (originalRequest._retry == true) {
+  if (originalRequest._retry === true) {
+    setAccessToken(null);
     if (!isAuthPage) {
       window.location.href = "/login";
     }
@@ -48,10 +62,16 @@ const handleAuthError = async (error, client) => {
     originalRequest._retry = true;
 
     try {
-      await authClient.post("/refresh");
+      const response = await authClient.post("/refresh");
+      const newAccessToken = response.data?.accessToken;
 
-      return client(originalRequest);
+      if (newAccessToken) {
+        setAccessToken(newAccessToken);
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return client(originalRequest);
+      }
     } catch (err) {
+      setAccessToken(null);
       if (!isAuthPage) {
         window.location.href = "/login";
       }
@@ -64,17 +84,13 @@ const handleAuthError = async (error, client) => {
 
 // for response
 authClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => handleAuthError(error, authClient),
+  (response) => response,
+  async (error) => handleAuthError(error, authClient)
 );
 
 apiClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => handleAuthError(error, apiClient),
+  (response) => response,
+  async (error) => handleAuthError(error, apiClient)
 );
 
-export { authClient, apiClient };
+export { authClient, apiClient, getAccessToken, setAccessToken };
