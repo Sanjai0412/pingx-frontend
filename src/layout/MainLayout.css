@@ -130,18 +130,182 @@
   }
   .sidebar-container {
     width: 100%;
-    height: auto;
-    position: relative;
+    height: 56px;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     border-right: none;
-    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+    background-color: var(--bg);
   }
   .page-container {
     width: 100%;
     min-width: 100%;
     border-left: none;
     border-right: none;
+    padding-bottom: 60px;
   }
   .page-main {
     max-width: 100%;
+  }
+}
+
+/* Profile Modal Popup Styles */
+.profile-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@media (min-width: 681px) {
+  .profile-modal-overlay {
+    align-items: center;
+  }
+}
+
+.profile-modal-content {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 24px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: slideUp 0.25s ease-out;
+}
+
+@media (min-width: 681px) {
+  .profile-modal-content {
+    border-radius: 16px;
+  }
+}
+
+.profile-modal-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-modal-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--accent-bg);
+  border: 1.5px solid var(--accent-border);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-modal-user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.profile-modal-display-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.profile-modal-handle {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.profile-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-modal-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background-color: var(--code-bg);
+  color: var(--text-h);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.profile-modal-btn:hover {
+  background-color: var(--accent-bg);
+}
+
+.profile-modal-btn.logout-btn {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+.profile-modal-btn.logout-btn:hover {
+  background-color: rgba(239, 68, 68, 0.16);
+}
+
+.profile-modal-cancel {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.profile-modal-cancel:hover {
+  background-color: var(--code-bg);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

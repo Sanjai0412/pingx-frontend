@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 import TweetForm from "../components/tweet/TweetForm";
 import FeedList from "../components/feed/FeedList";
 
 import { fetchFeed } from "../services/feedService";
-import { getNotificationsByUserId } from "../services/notificationService";
 
 const Home = () => {
   const { user, loading: authLoading } = useAuth();
+  const { openProfileModal } = useOutletContext() || {};
 
   const [feed, setFeed] = useState([]);
   const [feedLoading, setFeedLoading] = useState(true);
@@ -68,6 +68,26 @@ const Home = () => {
     <div className="feed-container">
       <main className="feed-main">
         <div className="home-header">
+          {user && (
+            <button
+              className="mobile-profile-btn"
+              onClick={openProfileModal}
+              title="Profile Options"
+              type="button"
+            >
+              {user.profileImgUrl ? (
+                <img
+                  className="mobile-profile-avatar"
+                  src={user.profileImgUrl}
+                  alt="profile"
+                />
+              ) : (
+                <div className="mobile-profile-avatar">
+                  {user.username ? user.username[0].toUpperCase() : "U"}
+                </div>
+              )}
+            </button>
+          )}
           <h2>Home</h2>
         </div>
 
