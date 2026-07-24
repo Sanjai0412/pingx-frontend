@@ -6,6 +6,8 @@ const OtpVerification = () => {
   const [otp, setOtp] = useState("");
   const [errors, setErrors] = useState([]);
   const [pendingUser, setPendingUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +20,9 @@ const OtpVerification = () => {
   }, [navigate]);
 
   const handleOtpVerification = async () => {
-    if (!pendingUser) return;
+    if (!pendingUser || loading) return;
+    setLoading(true);
+    setErrors([]);
     try {
       await verifyOtp(pendingUser.id, otp);
       localStorage.removeItem("pendingUser");
@@ -30,11 +34,15 @@ const OtpVerification = () => {
           "An error occurred during OTP verification",
         ],
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleOtpResend = async () => {
-    if (!pendingUser) return;
+    if (!pendingUser || resending) return;
+    setResending(true);
+    setErrors([]);
     try {
       await resendOTP(pendingUser.id);
       console.log("OTP sent successfully");
@@ -42,6 +50,8 @@ const OtpVerification = () => {
       setErrors(
         err.response?.data?.errors || ["An error occurred during OTP resend"],
       );
+    } finally {
+      setResending(false);
     }
   };
 
@@ -62,11 +72,19 @@ const OtpVerification = () => {
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
           />
-          <button className="auth-button" onClick={handleOtpVerification}>
-            Verify
+          <button
+            className="auth-button"
+            onClick={handleOtpVerification}
+            disabled={loading || resending}
+          >
+            {loading ? "Verifying..." : "Verify"}
           </button>
-          <button className="auth-button-secondary" onClick={handleOtpResend}>
-            Resend OTP
+          <button
+            className="auth-button-secondary"
+            onClick={handleOtpResend}
+            disabled={loading || resending}
+          >
+            {resending ? "Resending..." : "Resend OTP"}
           </button>
         </div>
         {errors.length > 0 && (

@@ -57,8 +57,8 @@ const Home = () => {
 
   if (authLoading || feedLoading) {
     return (
-      <div className="auth-container">
-        <h1>Loading...</h1>
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
       </div>
     );
   }

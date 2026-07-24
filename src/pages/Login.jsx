@@ -8,10 +8,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    if (loading) return;
+    setLoading(true);
+    setErrors([]);
     try {
       const user = await loginUser(email, password);
       setUser(user);
@@ -21,6 +25,8 @@ const Login = () => {
       setErrors(
         err.response?.data?.errors || ["An error occurred during login."],
       );
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -43,8 +49,8 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="auth-button" onClick={handleLogin}>
-            Login
+          <button className="auth-button" onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </div>
         {errors.length > 0 && (

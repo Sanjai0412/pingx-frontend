@@ -7,9 +7,13 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async () => {
+    if (loading) return;
+    setLoading(true);
+    setErrors([]);
     try {
       const data = await registerUser(username, email, password);
       localStorage.setItem("pendingUser", JSON.stringify(data.data));
@@ -18,6 +22,8 @@ const Register = () => {
       setErrors(
         err.response?.data?.errors || ["An error occurred during registration."],
       );
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -47,8 +53,8 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="auth-button" onClick={handleRegister}>
-            Register
+          <button className="auth-button" onClick={handleRegister} disabled={loading}>
+            {loading ? "Registering..." : "Register"}
           </button>
         </div>
         {errors.length > 0 && (
