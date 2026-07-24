@@ -1,7 +1,5 @@
 import { useFollow } from "../hooks/useFollow";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { logoutUser } from "../services/authService";
 
 const ProfileCard = ({ profile, isOwnProfile }) => {
   const {
@@ -14,17 +12,6 @@ const ProfileCard = ({ profile, isOwnProfile }) => {
   } = profile;
   const { following, toggleFollow, loading } = useFollow(profile.userId);
   const navigate = useNavigate();
-  const { setUser } = useAuth();
-
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-      setUser(null);
-      navigate("/login");
-    } catch (err) {
-      console.error("Logout error:", err);
-    }
-  };
 
   return (
     <div className="profile-details-wrapper">
@@ -49,20 +36,12 @@ const ProfileCard = ({ profile, isOwnProfile }) => {
           </div>
 
           {isOwnProfile ? (
-            <div className="profile-action-buttons">
-              <button
-                onClick={() => navigate("/settings/profile")}
-                className="profile-edit-btn"
-              >
-                Edit profile
-              </button>
-              <button
-                onClick={handleLogout}
-                className="profile-logout-btn"
-              >
-                Logout
-              </button>
-            </div>
+            <button
+              onClick={() => navigate("/settings/profile")}
+              className="profile-edit-btn"
+            >
+              Edit profile
+            </button>
           ) : (
             <button
               className={`profile-follow-btn ${following ? "following" : ""}`}
