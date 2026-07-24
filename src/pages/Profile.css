@@ -128,6 +128,12 @@
   outline: none;
 }
 
+.profile-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .profile-edit-btn {
   background-color: transparent;
   color: var(--text-h);
@@ -137,6 +143,24 @@
 .profile-edit-btn:hover {
   background-color: var(--accent-bg);
   border-color: var(--accent-border);
+}
+
+.profile-logout-btn {
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  background-color: transparent;
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.profile-logout-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
 }
 
 .profile-follow-btn {

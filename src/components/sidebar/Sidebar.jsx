@@ -9,18 +9,10 @@ import {
 import "./Sidebar.css";
 import { useNotification } from "../../hooks/useNotification";
 
-const Sidebar = ({ user, onLogout, onOpenProfileModal }) => {
+const Sidebar = ({ user, onLogout }) => {
   const navigate = useNavigate();
   const { notificationsCount } = useNotification();
   const location = useLocation();
-
-  const handleProfileClick = () => {
-    if (window.innerWidth <= 680 && onOpenProfileModal) {
-      onOpenProfileModal();
-    } else if (user?.username) {
-      navigate(`/profile/${user.username}`);
-    }
-  };
 
   return (
     <aside className="app-sidebar">
@@ -56,7 +48,7 @@ const Sidebar = ({ user, onLogout, onOpenProfileModal }) => {
         </div>
         <div
           className={`nav-item ${location.pathname.startsWith("/profile") ? "active" : ""}`}
-          onClick={handleProfileClick}
+          onClick={() => user?.username && navigate(`/profile/${user.username}`)}
         >
           <ProfileIcon className="nav-icon" />
           <span className="nav-label">Profile</span>
