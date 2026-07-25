@@ -8,13 +8,16 @@ const setAccessToken = (token) => {
   accessTokenMemory = token || null;
 };
 
+const authUrl = import.meta.env.AUTH_API_URL;
+const backendUrl = import.meta.env.BACKEND_API_URL;
+
 const apiClient = axios.create({
-  baseURL: "https://pingx-backend-gsb2.onrender.com/api",
+  baseURL: backendUrl,
   withCredentials: true,
 });
 
 const authClient = axios.create({
-  baseURL: "https://auth-service-lgiu.onrender.com/auth",
+  baseURL: authUrl,
   withCredentials: true,
 });
 
@@ -27,14 +30,22 @@ const attachAuthToken = (config) => {
   return config;
 };
 
-apiClient.interceptors.request.use(attachAuthToken, (error) => Promise.reject(error));
-authClient.interceptors.request.use(attachAuthToken, (error) => Promise.reject(error));
+apiClient.interceptors.request.use(attachAuthToken, (error) =>
+  Promise.reject(error),
+);
+authClient.interceptors.request.use(attachAuthToken, (error) =>
+  Promise.reject(error),
+);
 
 // Response Interceptors
 const handleAuthError = async (error, client) => {
   const originalRequest = error.config;
 
-  if (!originalRequest || originalRequest.url.includes("/refresh") || originalRequest.url.includes("/login")) {
+  if (
+    !originalRequest ||
+    originalRequest.url.includes("/refresh") ||
+    originalRequest.url.includes("/login")
+  ) {
     return Promise.reject(error);
   }
 
@@ -85,12 +96,12 @@ const handleAuthError = async (error, client) => {
 // for response
 authClient.interceptors.response.use(
   (response) => response,
-  async (error) => handleAuthError(error, authClient)
+  async (error) => handleAuthError(error, authClient),
 );
 
 apiClient.interceptors.response.use(
   (response) => response,
-  async (error) => handleAuthError(error, apiClient)
+  async (error) => handleAuthError(error, apiClient),
 );
 
 export { authClient, apiClient, getAccessToken, setAccessToken };
