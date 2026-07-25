@@ -1,38 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { usePaginatedFeed } from "../hooks/usePaginatedFeed";
 import { useNavigate } from "react-router-dom";
 
 import TweetForm from "../components/tweet/TweetForm";
 import FeedList from "../components/feed/FeedList";
+import InfiniteScrollFooter from "../components/common/InfiniteScrollFooter";
 
 import { fetchFeed } from "../services/feedService";
 
 const Home = () => {
   const { user, loading: authLoading } = useAuth();
-
-  const [feed, setFeed] = useState([]);
-  const [feedLoading, setFeedLoading] = useState(true);
-  const [error, setError] = useState("");
-
   const navigate = useNavigate();
+
+  const fetchHomeFeed = useCallback(async (limit, offset) => {
+    const response = await fetchFeed(limit, offset);
+    return Array.isArray(response.data) ? response.data : [];
+  }, []);
+
+  const {
+    items: feed,
+    loading: feedLoading,
+    loadingMore,
+    hasMore,
+    error,
+    lastElementRef,
+    loadData,
+    addItem,
+  } = usePaginatedFeed(fetchHomeFeed, 20);
 
   useEffect(() => {
     if (authLoading || !user) return;
-
-    const loadFeed = async () => {
-      try {
-        setFeedLoading(true);
-
-        const response = await fetchFeed(20, 0);
-
-        setFeed(Array.isArray(response.data) ? response.data : []);
-      } catch (err) {
-        console.error("Error fetching feed:", err);
-        setError("Could not load feed. Please try again later.");
-      } finally {
-        setFeedLoading(false);
-      }
-    };
 
     const needsSetup = localStorage.getItem("needsProfileSetup");
     if (needsSetup === "true") {
@@ -40,8 +38,8 @@ const Home = () => {
       return;
     }
 
-    loadFeed();
-  }, [authLoading, user, navigate]);
+    loadData(0);
+  }, [authLoading, user, navigate, loadData]);
 
   const handleTweetCreated = (newTweet) => {
     const feedItem = {
@@ -51,11 +49,10 @@ const Home = () => {
       tweet: newTweet,
     };
 
-    setFeed((prev) => [feedItem, ...prev]);
-    console.log(feed);
+    addItem(feedItem);
   };
 
-  if (authLoading || feedLoading) {
+  if (authLoading || (feedLoading && feed.length === 0)) {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
@@ -79,6 +76,14 @@ const Home = () => {
         {error && <div className="feed-error-banner">{error}</div>}
 
         <FeedList feed={feed} onTweetCreated={handleTweetCreated} />
+
+        <InfiniteScrollFooter
+          hasMore={hasMore}
+          loadingMore={loadingMore}
+          lastElementRef={lastElementRef}
+          endMessage="You've reached the end of the feed"
+          hasItems={feed.length > 0}
+        />
       </main>
     </div>
   );
