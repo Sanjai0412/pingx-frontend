@@ -14,8 +14,10 @@ const UserCard = ({ user }) => {
 
     return <div key={user._id} className="user-item" onClick={handleViewProfile} >
         <div className="user-profile-summary"  >
-            <img className="user-avatar-small" src={user.profileImgUrl} alt={(user.displayName || user.username).charAt(0).toUpperCase()}>
-            </img>
+            {user.profileImgUrl ? (<img className="user-avatar-small" src={user.profileImgUrl} alt={(user.displayName || user.username).charAt(0).toUpperCase()}>
+            </img>) : (<div className="user-avatar-fallback">
+                {user.username ? user.username[0].toUpperCase() : "U"}
+            </div>)}
             <div className="user-meta">
                 <span className="user-name-text">{user.displayName || user.username}</span>
                 <span className="user-handle-text">@{user.username}</span>

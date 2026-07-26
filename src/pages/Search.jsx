@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { searchUser } from "../services/userService";
+import { useState, useEffect } from "react";
+import { searchUser, getSuggestedUsers } from "../services/userService";
 import UserList from "../components/UserList";
 import "./Search.css";
 
@@ -8,11 +8,23 @@ const Search = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const loadSuggestedUsers = async () => {
+        try {
+            const data = await getSuggestedUsers();
+            setSearchResults(data.data || []);
+        } catch (err) {
+            console.error("Failed to load suggested users:", err);
+        }
+    };
+    useEffect(() => {
+        loadSuggestedUsers();
+    }, []);
+
     const handleSearch = async (e) => {
         const query = e.target.value;
         setSearchQuery(query);
         if (!query.trim()) {
-            setSearchResults([]);
+            loadSuggestedUsers();
             return;
         }
         setLoading(true);

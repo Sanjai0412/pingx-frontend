@@ -8,6 +8,11 @@ export const searchUser = async (query) => {
     return response.data;
 }
 
+export const getSuggestedUsers = async () => {
+    const response = await apiClient.get(`/users/suggesstions`);
+    return response.data;
+}
+
 export const getProfile = async (username) => {
     const response = await apiClient.get(`/users/${username}`);
     return response.data.data;
