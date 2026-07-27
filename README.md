@@ -1,210 +1,141 @@
 # PingX - Frontend Client
 
-PingX is a modern Twitter/X-inspired social media client built with **React**, **Vite**, and **Vanilla CSS**. It delivers a responsive and modular user experience with activity-based feeds, tweet interactions, user profiles, comments, and secure authentication.
+PingX is a modern Twitter/X-inspired web client built with **React 18**, **Vite**, and **Vanilla CSS**. It delivers a sleek, responsive user experience with activity-based feeds, infinite scrolling, real-time notifications, profile management, and secure token handling.
 
 ---
 
-# Features
+## Live Deployments
 
-## Authentication
+| Service | Platform | URL / Base Endpoint |
+| :--- | :--- | :--- |
+| **Frontend Web App** | Vercel | [pingx-sanjaii04.vercel.app](https://pingx-sanjaii04.vercel.app) |
 
-- JWT-based authentication
-- Protected routes
-- Persistent login sessions
-- Automatic token handling with Axios interceptors
-
----
-
-## Home Feed
-
-- Activity-based timeline
-- Original tweets
-- Reposts
-- Quote tweets
-- Real-time tweet creation
-- Responsive feed layout
+### Connected Backend Services
+- **Backend API Service (Railway):** [https://pingx-backend-production.up.railway.app](https://pingx-backend-production.up.railway.app)
+- **Auth Microservice (Railway):** [https://auth-service-production-4ccd.up.railway.app](https://auth-service-production-4ccd.up.railway.app)
 
 ---
 
-## Tweet System
+## Features
 
-- Create tweets
-- Delete tweets
-- Like / Unlike tweets
-- Repost / Undo repost
-- Quote tweets
-- Tweet detail page
-- Nested quoted tweet rendering
+### Authentication & Session Management
+- **In-Memory Access Tokens:** Access tokens stored strictly in memory (no `localStorage` vulnerability).
+- **Silent Token Refresh:** Automatic token renewal on `401/403` responses via Axios interceptors using HttpOnly refresh cookies.
+- **Protected Routes:** Context-driven route guarding (`PrivateRoute` & `PublicRoute`).
+- **OTP Verification & Setup:** Step-by-step registration flow, OTP verification, and initial profile setup wizard.
 
----
+### Responsive Mobile & Desktop Layout
+- **Desktop View:** Three-column layout featuring sticky sidebar navigation, main content feed, and right sidebar (Search & Suggested Users).
+- **Mobile View (Instagram-style):** Fixed bottom navigation bar with top brand header, plus a mobile profile popup modal for profile navigation and logout.
 
-## Comments
+### Activity Feed & Infinite Scrolling
+- Activity-based feed rendering original tweets, reposts, and quote tweets ordered by activity timestamp.
+- **Infinite Scrolling:** Performance-optimized `IntersectionObserver` pagination (`useInfiniteScroll` & `usePaginatedFeed` custom hooks).
+- Centralized `InfiniteScrollFooter` for bottom loading spinners and end-of-feed indicators.
 
-- View tweet comments
-- Create comments
-- Dedicated tweet detail page
-- Reply-ready architecture (v1)
+### Tweet & Social System
+- **Tweet Creation:** Media & text publishing with character limit feedback.
+- **Interactions:** Like / Unlike, Retweet / Undo Retweet, and Quote Tweet modals.
+- **Recursive Quoted Tweet Rendering:** Render nested quote cards up to depth limits.
+- **Comments / Replies:** View parent tweet detail page with full reply history thread.
 
----
+### Real-time Notifications
+- Dedicated Notification page (`/notifications`) with unread notification counter badge.
+- Event support for Follows, Likes, Retweets, Quotes, and Replies.
+- One-click "Mark all as read" functionality (`NotificationContext`).
 
-## User Profiles
-
-- View user profiles
-- Profile banner
-- Profile avatar
-- Bio
-- Followers / Following counts
-- User tweet timeline
-- Follow / Unfollow users
-
----
-
-## Search
-
-- User search
-- Follow / Unfollow directly from search
-- Real-time search results
+### Profile & User System
+- Public profile pages (`/profile/:username`) displaying bio, avatar, joining date, followers/following counts, and user post timelines.
+- Real-time follow / unfollow toggle actions (`useFollow`).
+- Real-time user search bar with instant follow/unfollow capability.
+- Suggested users recommendations list.
 
 ---
 
-## UI & UX
+## Technology Stack
 
-- Responsive three-column layout
-- Sticky sidebar navigation
-- Reusable TweetCard architecture
-- FeedItem architecture for activity rendering
-- Monochrome design system
-- SVG icon components
-- Avatar fallbacks
-- Hover animations
-- Loading states
+- **Core:** React 18, Vite
+- **Routing:** React Router DOM (v6)
+- **HTTP Client:** Axios with custom request/response interceptors
+- **Styling:** Vanilla CSS (CSS Variables, Flexbox, Grid, Media Queries)
+- **State Management:** React Context API (`AuthProvider`, `NotificationProvider`)
+- **Icons:** Custom SVG Icon library (`Icons.jsx`)
 
 ---
 
-# Technology Stack
-
-- React 18
-- Vite
-- React Router DOM
-- Axios
-- Vanilla CSS
-- Context API
-
----
-
-# Architecture
-
-The frontend follows a component-driven architecture.
-
-```text
-Home
-│
-├── TweetForm
-│
-└── FeedList
-      │
-      └── FeedItem
-             │
-             └── TweetCard
-                    │
-                    ├── TweetHeader
-                    ├── TweetBody
-                    └── TweetActions
-```
-
----
-
-# Project Structure
+## Architecture & Structure
 
 ```text
 pingx-frontend/
 ├── public/
 ├── src/
-│
-├── components/
-│   ├── comment/
-│   ├── feed/
-│   ├── profile/
-│   ├── search/
-│   ├── sidebar/
-│   └── tweet/
-│
-├── hooks/
-├── layout/
-├── pages/
-├── providers/
-├── routes/
-├── services/
-├── utils/
-│
-├── App.jsx
-├── main.jsx
-└── index.css
+│   ├── components/
+│   │   ├── comment/         # Comment components & threads
+│   │   ├── common/          # Reusable UI (InfiniteScrollFooter, etc.)
+│   │   ├── feed/            # FeedList, FeedItem, TweetCard, Actions
+│   │   ├── notification/    # Notification item & list views
+│   │   ├── search/          # SearchBar & SearchResults
+│   │   ├── sidebar/         # Sidebar navigation & Mobile modal
+│   │   └── tweet/           # TweetForm, RetweetPopup, QuotedCard
+│   ├── context/             # AuthContext, NotificationContext
+│   ├── hooks/               # useAuth, useFollow, useInfiniteScroll, usePaginatedFeed
+│   ├── layout/              # MainLayout & responsive styles
+│   ├── pages/               # Home, Profile, Login, Register, OtpVerification, Notifications
+│   ├── services/            # authService, feedService, tweetService, userService, notificationService
+│   ├── utils/               # axiosConfig, dateFormatter
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── .env
+├── package.json
+└── vite.config.js
 ```
 
 ---
 
-# Local Development
+## Local Development Setup
 
-## Install
+### 1. Prerequisites
+- Node.js 18+
+- npm or yarn
 
-```bash
-npm install
-```
-
----
-
-## Environment Variables
-
-Create a `.env` file.
+### 2. Environment Variables (`.env`)
+Create a `.env` file in the project root:
 
 ```env
-API_BASE_URL=http://localhost:8080/api
-AUTH_BASE_URL=http://localhost:3000/auth
+# Backend API Service URL
+VITE_BACKEND_API_URL=http://localhost:8080/api
+
+# Auth Service URL
+VITE_AUTH_API_URL=http://localhost:3000/auth
 ```
 
----
-
-## Run
-
+### 3. Installation & Run
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
 ```
 
-The application starts at
-
-```
-http://localhost:5173
-```
+The frontend application will be running at `http://localhost:5173`.
 
 ---
 
-# Current Features
+## Production Build & Deployment
 
-- JWT Authentication
-- Protected Routes
-- Activity Feed
-- Tweet Creation
-- Tweet Details
-- Like / Unlike
-- Reposts
-- Quote Tweets
-- Recursive Quote Rendering
-- Comments (v1)
-- User Profiles
-- User Tweet Timeline
-- Follow / Unfollow
-- User Search
-- Responsive Layout
+```bash
+# Build for production
+npm run build
 
----
+# Preview production build locally
+npm run preview
+```
 
-# Planned Features
-
-- Comment Replies
-- Infinite Scrolling
-- Notifications
-- Bookmarks
-- Profile Tabs (Posts, Replies, Media, Likes)
-- Trending Section
-- Direct Messaging
+### Deploying to Vercel
+1. Import your `pingx-frontend` repository in Vercel.
+2. Set Environment Variables in Vercel settings:
+   * `VITE_BACKEND_API_URL`: `https://your-backend.up.railway.app/api`
+   * `VITE_AUTH_API_URL`: `https://your-auth-service.up.railway.app/auth`
+3. Click **Deploy**.

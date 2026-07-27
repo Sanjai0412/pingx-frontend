@@ -1,10 +1,5 @@
 import { apiClient } from "../utils/axiosConfig";
 
-export const fetchTweets = async () => {
-  const response = await apiClient.get("/tweets");
-  return response.data; // list of tweets
-};
-
 export const fetchUserTweets = async (userId) => {
   const response = await apiClient.get(`users/${userId}/tweets`);
   return response.data;
@@ -63,4 +58,3 @@ export const fetchCommentsByTweetId = async (tweetId) => {
   const response = await apiClient.get(`/tweets/${tweetId}/replies`);
   return response.data;
 };
-export const replyComment = async (commentId, content) => {};
