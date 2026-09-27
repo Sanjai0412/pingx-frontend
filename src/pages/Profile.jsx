@@ -29,13 +29,13 @@ const Profile = () => {
         const userTweetsRes = await fetchFeedByUserId(
           profile.userId,
           limit,
-          offset
+          offset,
         );
         return Array.isArray(userTweetsRes.data) ? userTweetsRes.data : [];
       }
       return [];
     },
-    [username, userProfile]
+    [username, userProfile],
   );
 
   const {

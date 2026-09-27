@@ -8,9 +8,6 @@ const setAccessToken = (token) => {
   accessTokenMemory = token || null;
 };
 
-console.log(import.meta.env.VITE_AUTH_API_URL);
-console.log(import.meta.env.VITE_BACKEND_API_URL);
-
 const authUrl = import.meta.env.VITE_AUTH_API_URL;
 const backendUrl = import.meta.env.VITE_BACKEND_API_URL;
 
