@@ -23,6 +23,19 @@
   height: 40px;
   border-radius: 50%;
   flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease, opacity 0.2s ease;
+}
+
+.tweet-avatar:hover,
+.tweet-avatar-fallback:hover,
+.comment-avatar:hover,
+.comment-avatar-fallback:hover,
+.tweet-avatar-small:hover,
+.tweet-avatar-fallback-small:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+  opacity: 0.9;
 }
 
 .tweet-avatar,
@@ -61,12 +74,31 @@
   font-weight: 700;
   color: var(--text-h);
   font-size: 15px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.comment-author:hover,
+.tweet-author:hover,
+.tweet-author-small:hover,
+.comment-author-small:hover {
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 .comment-username,
 .tweet-username {
   color: var(--text);
   font-size: 14px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.comment-username:hover,
+.tweet-username:hover,
+.tweet-username-small:hover,
+.comment-username-small:hover {
+  color: var(--accent);
 }
 
 .comment-divider,

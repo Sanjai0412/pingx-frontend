@@ -32,8 +32,8 @@ const Sidebar = ({ user, onLogout }) => {
     <>
       <aside className="app-sidebar">
         <div className="sidebar-brand" onClick={() => navigate("/")}>
-          <span className="brand-logo">P</span>
-          <span className="brand-name">PingX</span>
+          <span className="brand-logo"><img src="/pingx_logo.svg" alt="P" /></span>
+          <span className="brand-name"><img src="/pingx.svg" alt="PingX" /></span>
         </div>
 
         <nav className="sidebar-nav">
@@ -62,9 +62,8 @@ const Sidebar = ({ user, onLogout }) => {
             )}
           </div>
           <div
-            className={`nav-item nav-profile-item ${
-              location.pathname.startsWith("/profile") ? "active" : ""
-            }`}
+            className={`nav-item nav-profile-item ${location.pathname.startsWith("/profile") ? "active" : ""
+              }`}
             onClick={handleProfileClick}
           >
             {user && user.profileImgUrl ? (

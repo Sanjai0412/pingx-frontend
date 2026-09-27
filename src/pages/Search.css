@@ -102,6 +102,16 @@
   border: 1px solid var(--accent-border);
   object-fit: cover;
   flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease, opacity 0.2s ease;
+}
+
+.user-item:hover .user-avatar-small,
+.user-item:hover .user-avatar-fallback,
+.user-avatar-small:hover,
+.user-avatar-fallback:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+  opacity: 0.9;
 }
 
 .user-meta {
@@ -114,11 +124,23 @@
   font-size: 15px;
   font-weight: 700;
   color: var(--text-h);
+  transition: color 0.15s ease;
+}
+
+.user-item:hover .user-name-text,
+.user-name-text:hover {
+  color: var(--accent);
 }
 
 .user-handle-text {
   font-size: 13px;
   color: var(--text);
+  transition: color 0.15s ease;
+}
+
+.user-item:hover .user-handle-text,
+.user-handle-text:hover {
+  color: var(--accent);
 }
 
 .user-follow-btn {

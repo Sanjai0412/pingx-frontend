@@ -310,12 +310,16 @@ code {
   color: var(--accent);
   width: 28px;
   height: 28px;
-  border-radius: 50%;
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.mobile-brand-logo .brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .mobile-brand-logo .brand-name {
@@ -323,11 +327,22 @@ code {
   font-weight: 700;
   color: var(--text-h);
   letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.mobile-brand-logo .brand-name img {
+  height: 25px;
+  width: auto;
+  display: block;
 }
 
 @media (max-width: 680px) {
   .mobile-brand-logo {
     display: flex;
+  }
+  .home-header h2 {
+    display: none;
   }
 }
 
@@ -391,4 +406,29 @@ code {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Interactive User Avatar & Username Hover Effects */
+img[class*="avatar"],
+div[class*="avatar"] {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+}
+
+img[class*="avatar"]:hover,
+div[class*="avatar"]:hover {
+  transform: scale(1.04);
+  filter: brightness(1.1);
+  opacity: 0.9;
+}
+
+[class*="author"]:hover,
+[class*="display-name"]:hover,
+[class*="user-name-text"]:hover {
+  color: var(--accent);
+}
+
+[class*="username"]:hover,
+[class*="user-handle-text"]:hover {
+  color: var(--accent);
 }
