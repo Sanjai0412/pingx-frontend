@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 760 180"
+     role="img"
+     aria-label="PingX logo">
+
+  <defs>
+    <linearGradient id="brandGradient"
+                    x1="0.05"
+                    y1="0.95"
+                    x2="0.95"
+                    y2="0.05">
+      <stop offset="0%" stop-color="#1657F5"/>
+      <stop offset="28%" stop-color="#7434E8"/>
+      <stop offset="52%" stop-color="#C72BE1"/>
+      <stop offset="75%" stop-color="#F044A5"/>
+      <stop offset="100%" stop-color="#FF963C"/>
+    </linearGradient>
+  </defs>
+
+  <g
+    font-family="Inter, Arial, Helvetica, sans-serif"
+    font-weight="700"
+    letter-spacing="-5">
+
+    <!-- Ping -->
+    <text
+      x="35"
+      y="130"
+      font-size="125"
+      fill="#F8F8FA">
+      Ping
+    </text>
+
+    <!-- X — positioned directly after Ping -->
+    <text
+      x="285"
+      y="130"
+      font-size="125"
+      fill="url(#brandGradient)">
+      X
+    </text>
+
+  </g>
+
+</svg>
