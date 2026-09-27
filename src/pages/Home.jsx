@@ -65,7 +65,7 @@ const Home = () => {
       <main className="feed-main">
         <div className="home-header">
           <div className="mobile-brand-logo" onClick={() => navigate("/")}>
-            <span className="brand-name"><img src="/public/pingx.svg" alt="PingX" width={100} /></span>
+            <span className="brand-name"><img src="../public/pingx" alt="PingX" width={100} /></span>
           </div>
           <h2>Home</h2>
         </div>
