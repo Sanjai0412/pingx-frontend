@@ -8,9 +8,7 @@ function App() {
   return (
     <AuthContextProvider>
       <NotificationProvider>
-        <SocketManager>
-          <AppRouter />
-        </SocketManager>
+        <AppRouter />
       </NotificationProvider>
     </AuthContextProvider>
   );

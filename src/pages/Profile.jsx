@@ -1,61 +1,43 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProfile } from "../services/userService";
 import ProfileCard from "../components/profileCard";
 import { useAuth } from "../hooks/useAuth";
-import { usePaginatedFeed } from "../hooks/usePaginatedFeed";
 import "./Profile.css";
-import { fetchFeedByUserId } from "../services/feedService";
+import { useProfileQuery } from "../hooks/useProfileQuery";
+import { useUserTweetsQuery } from "../hooks/useUserTweetsQuery";
+import { useInView } from "react-intersection-observer";
+import { FeedFooter } from "../components/FeedFooter";
 import FeedList from "../components/feed/FeedList";
-import InfiniteScrollFooter from "../components/common/InfiniteScrollFooter";
 
 const Profile = () => {
   const { user } = useAuth();
   const { username } = useParams();
   const navigate = useNavigate();
-
-  const [userProfile, setUserProfile] = useState(null);
+  const { ref, inView } = useInView();
   const [activeTab, setActiveTab] = useState("tweets");
 
-  const fetchUserTweets = useCallback(
-    async (limit, offset) => {
-      let profile = userProfile;
-      if (!profile || offset === 0) {
-        profile = await getProfile(username);
-        setUserProfile(profile);
-      }
-
-      if (profile?.userId) {
-        const userTweetsRes = await fetchFeedByUserId(
-          profile.userId,
-          limit,
-          offset,
-        );
-        return Array.isArray(userTweetsRes.data) ? userTweetsRes.data : [];
-      }
-      return [];
-    },
-    [username, userProfile],
-  );
+  const {
+    data: userProfile,
+    isLoading: isProfileLoading,
+  } = useProfileQuery(username)
 
   const {
-    items: tweets,
-    loading,
-    loadingMore,
-    hasMore,
-    lastElementRef,
-    loadData,
-    addItem,
-  } = usePaginatedFeed(fetchUserTweets, 20);
+    data: tweetsData,
+    isLoading: isTweetsLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage
+  } = useUserTweetsQuery(userProfile?.userId);
+
+  const tweets = tweetsData?.pages.flatMap((page) => page) ?? [];
 
   useEffect(() => {
-    if (username) {
-      setUserProfile(null);
-      loadData(0);
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  }, [username]);
+  }, [inView, hasNextPage, fetchNextPage])
 
-  if (loading && !userProfile) {
+  if (isProfileLoading && !userProfile) {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
@@ -64,12 +46,6 @@ const Profile = () => {
   }
 
   const isOwnProfile = user?.username === userProfile?.username;
-
-  const handleTweetCreated = (newTweet) => {
-    if (isOwnProfile) {
-      addItem(newTweet);
-    }
-  };
 
   return (
     <div className="profile-container">
@@ -112,16 +88,9 @@ const Profile = () => {
           {activeTab === "likes" && <div className="profile-tab-indicator" />}
         </div>
       </div>
+      <FeedList feed={tweets} />
 
-      <FeedList feed={tweets} onTweetCreated={handleTweetCreated} />
-
-      <InfiniteScrollFooter
-        hasMore={hasMore}
-        loadingMore={loadingMore}
-        lastElementRef={lastElementRef}
-        endMessage="You've reached the end of posts"
-        hasItems={tweets.length > 0}
-      />
+      <FeedFooter ref={ref} isFetchingNextPage={isFetchingNextPage}></FeedFooter>
     </div>
   );
 };
