@@ -1,18 +1,22 @@
 import { CommentIcon, HeartIcon, RetweetIcon } from "../Icons";
 
 const CommentActions = ({ comment, onCommentCreated }) => {
+
   return (
     <div className="comment-actions">
-      <button className="comment-action-btn comment-btn">
-        <CommentIcon />
+      <button className="tweet-action-btn comment-btn">
+        <CommentIcon size={16} />
       </button>
 
-      <button className="comment-action-btn retweet-btn">
+      <button >
         <RetweetIcon />
       </button>
 
-      <button className="comment-action-btn like-btn">
-        <HeartIcon />
+      <button
+
+      >
+        <HeartIcon size={16} />
+        <span>{ }</span>
       </button>
     </div>
   );

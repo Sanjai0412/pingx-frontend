@@ -1,33 +1,37 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { usePaginatedFeed } from "../hooks/usePaginatedFeed";
 import { useNavigate } from "react-router-dom";
 
 import TweetForm from "../components/tweet/TweetForm";
 import FeedList from "../components/feed/FeedList";
-import InfiniteScrollFooter from "../components/common/InfiniteScrollFooter";
 
-import { fetchFeed } from "../services/feedService";
+import { useFeedQuery } from "../hooks/useFeedQuery";
+import { useInView } from "react-intersection-observer";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../constants/queryKeys";
+import { FeedFooter } from "../components/FeedFooter";
 
 const Home = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
-
-  const fetchHomeFeed = useCallback(async (limit, offset) => {
-    const response = await fetchFeed(limit, offset);
-    return Array.isArray(response.data) ? response.data : [];
-  }, []);
+  const { ref, inView } = useInView();
+  const queryClient = useQueryClient();
 
   const {
-    items: feed,
-    loading: feedLoading,
-    loadingMore,
-    hasMore,
+    data,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
     error,
-    lastElementRef,
-    loadData,
-    addItem,
-  } = usePaginatedFeed(fetchHomeFeed, 20);
+    fetchNextPage
+  } = useFeedQuery();
+  const feed = data?.pages.flatMap((page) => page) ?? [];
+  console.log(feed)
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage])
 
   useEffect(() => {
     if (authLoading || !user) return;
@@ -38,21 +42,16 @@ const Home = () => {
       return;
     }
 
-    loadData(0);
-  }, [authLoading, user, navigate, loadData]);
+  }, [authLoading, user, navigate]);
 
   const handleTweetCreated = (newTweet) => {
-    const feedItem = {
-      type: "TWEET",
-      activityAt: newTweet.createdAt,
-      performedBy: newTweet.author,
-      tweet: newTweet,
-    };
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.feed
+    })
 
-    addItem(feedItem);
   };
 
-  if (authLoading || (feedLoading && feed.length === 0)) {
+  if (authLoading || (isLoading && feed.length === 0)) {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
@@ -77,15 +76,9 @@ const Home = () => {
 
         <FeedList feed={feed} onTweetCreated={handleTweetCreated} />
 
-        <InfiniteScrollFooter
-          hasMore={hasMore}
-          loadingMore={loadingMore}
-          lastElementRef={lastElementRef}
-          endMessage="You've reached the end of the feed"
-          hasItems={feed.length > 0}
-        />
-      </main>
-    </div>
+        <FeedFooter ref={ref} isFetchingNextPage={isFetchingNextPage} />
+      </main >
+    </div >
   );
 };
 
