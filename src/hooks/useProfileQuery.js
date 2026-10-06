@@ -7,7 +7,7 @@ export const useProfileQuery = (username) => {
         useQuery({
             queryKey: QUERY_KEYS.profile(username),
             queryFn: async () => await getProfile(username),
-            enabled: !!username,
+            enabled: !!username
         })
 
     )
