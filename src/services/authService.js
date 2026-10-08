@@ -79,7 +79,7 @@ export const loginUser = async (email, password) => {
     setAccessToken(response.data.accessToken);
   }
   return response.data.user;
-};
+}
 
 export const logoutUser = async () => {
   try {

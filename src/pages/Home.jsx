@@ -10,6 +10,7 @@ import { useInView } from "react-intersection-observer";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../constants/queryKeys";
 import { FeedFooter } from "../components/FeedFooter";
+import Announcement from "../components/announcement/Announcement";
 
 const Home = () => {
   const { user, loading: authLoading } = useAuth();
@@ -19,20 +20,6 @@ const Home = () => {
 
   // Update Announcement
   const UPDATE_KEY = "comment-actions-announced";
-  const [showUpdate, setShowUpdate] = useState(false);
-
-  useEffect(() => {
-    const alreadyShown = localStorage.getItem(UPDATE_KEY);
-
-    if (!alreadyShown) {
-      setShowUpdate(true);
-    }
-  }, []);
-  const handleClose = () => {
-    localStorage.setItem(UPDATE_KEY, "true");
-    setShowUpdate(false);
-  };
-
 
   const {
     data,
@@ -88,82 +75,7 @@ const Home = () => {
         </div>
 
         {/* Update Announcement */}
-        {showUpdate && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 9999,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.55)",
-              padding: "20px",
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "600px",
-                backgroundColor: "#000",
-                color: "#e7e9ea",
-                borderRadius: "16px",
-                padding: "32px",
-                boxShadow: "0 8px 30px rgba(0, 0, 0, 0.5)",
-                border: "1px solid #2f3336",
-              }}
-            >
-              <h1
-                style={{
-                  margin: "0 0 28px",
-                  fontSize: "24px",
-                  fontWeight: "800",
-                  letterSpacing: "-0.3px",
-                }}
-              >
-                What's new?
-              </h1>
-
-              <h2
-                style={{
-                  margin: "0 0 8px",
-                  fontSize: "20px",
-                  fontWeight: "700",
-                }}
-              >
-                Comment actions are unlocked
-              </h2>
-
-              <p
-                style={{
-                  margin: "0 0 28px",
-                  color: "#71767b",
-                  fontSize: "15px",
-                  lineHeight: "1.5",
-                }}
-              >
-                You can now like, reply, and interact with comments.
-              </p>
-
-              <button
-                onClick={handleClose}
-                style={{
-                  width: "100%",
-                  padding: "12px 20px",
-                  border: "none",
-                  borderRadius: "9999px",
-                  backgroundColor: "#eff3f4",
-                  color: "#0f1419",
-                  fontSize: "15px",
-                  fontWeight: "700",
-                  cursor: "pointer",
-                }}
-              >
-                Got it
-              </button>
-            </div>
-          </div>
-        )}
+        <Announcement UPDATE_KEY={UPDATE_KEY} />
 
 
         <TweetForm onTweetCreated={handleTweetCreated} />
